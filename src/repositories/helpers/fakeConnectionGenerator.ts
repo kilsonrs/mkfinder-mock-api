@@ -9,10 +9,10 @@ interface IFakeConnection {
 const fakeConnectionGenerator = ({firstName, lastName}:IFakeConnection): IConnection => {
   const connection = {
     ramal:  internet.ip(),
-    login: internet.userName(firstName, lastName).toLocaleLowerCase(),
-    senha: internet.password(8),
+    login: `${firstName.toLocaleLowerCase()}.${(lastName).toLocaleLowerCase()}`,
+    senha: firstName.toLocaleLowerCase(),
     mac: internet.mac().toLocaleUpperCase(),
-    chave: internet.password(16),
+    chave: internet.password(8).toLocaleLowerCase(),
   }
   return connection;
 }

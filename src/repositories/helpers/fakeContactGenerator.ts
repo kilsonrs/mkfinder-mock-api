@@ -1,5 +1,6 @@
 import IContact from "../../dtos/IContact";
-import { internet, phone } from 'faker';
+import faker from 'faker';
+faker.locale="pt_BR";
 
 interface FakePersonGeneratorDTO {
   id: string;
@@ -9,13 +10,14 @@ interface FakePersonGeneratorDTO {
 }
 
 const fakeContactGenerator = ({id, uuid_cliente,firstName, lastName }: FakePersonGeneratorDTO): IContact => {
+  const areaCode = faker.random.number({ min: 11, max: 19 })
   const contact = {
     id,
     uuid_cliente,
-    fone: phone.phoneNumber(),
-    celular: phone.phoneNumber(),
-    celular2: phone.phoneNumber(),
-    email: internet.email(firstName, lastName).toLocaleLowerCase(),
+    fone: faker.phone.phoneNumber(`(${areaCode}) 3###-####`),
+    celular: faker.phone.phoneNumber(`(${areaCode}) 9####-####`),
+    celular2: faker.phone.phoneNumber(`(${areaCode}) 9####-####`),
+    email: faker.internet.email(firstName, lastName).toLocaleLowerCase(),
   }
   return contact;
 }
