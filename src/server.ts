@@ -1,8 +1,8 @@
 import app from './app';
 import 'dotenv/config'
 
-const port = process.env.APP_API_PORT;
+const port = process.env.PORT || 80;
 
 app.listen(port, () => {
-  console.log('🚀 Server started on port 3334');
+  console.log(`🚀 Server started on port ${port}`);
 });
