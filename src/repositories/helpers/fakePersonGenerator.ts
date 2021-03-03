@@ -4,6 +4,7 @@ import { format, addDays, subDays } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
 import IPerson from "../../dtos/IPerson";
+import { parseString } from '../../utils/stringParser';
 
 interface IFakePerson {
   id: string;
@@ -91,7 +92,7 @@ const fakePersonGenerator = ({firstName, lastName, id, uuid_cliente, company}: I
     nome: name.findName(firstName,lastName, 0),
     company,
     cpf_cnpj: random.number(45645678936).toString(),
-    url: `https://${company.toLocaleLowerCase()}.net.br`,
+    url: `https://mkauth.${parseString(company.toLocaleLowerCase()).replace(/\s/g, '.')}.br`,
     status,
   }
   return person;
