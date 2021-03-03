@@ -1,9 +1,8 @@
-import { name, random, internet } from 'faker';
+import { name, random } from 'faker';
 
-import { format, addDays, subDays } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
+import ptBR, { format, addDays, subDays } from 'date-fns';
 
-import IPerson from "../../dtos/IPerson";
+import IPerson from '../../dtos/IPerson';
 import { parseString } from '../../utils/stringParser';
 
 interface IFakePerson {
@@ -14,22 +13,28 @@ interface IFakePerson {
   lastName: string;
 }
 
-const fakePersonGenerator = ({firstName, lastName, id, uuid_cliente, company}: IFakePerson): IPerson => {
-  const year = new Date().getFullYear()
-  const month = new Date().getMonth()
+const fakePersonGenerator = ({
+  firstName,
+  lastName,
+  id,
+  uuid_cliente,
+  company,
+}: IFakePerson): IPerson => {
+  const year = new Date().getFullYear();
+  const month = new Date().getMonth();
   const fromDate = new Date(year, month, 10);
 
   const blockDate = format(fromDate, 'yyyy-MM-dd', {
-    locale: ptBR
-  })
+    locale: ptBR,
+  });
 
   const deactivationDate = format(subDays(fromDate, 15), 'yyyy-MM-dd', {
-    locale: ptBR
-  })
+    locale: ptBR,
+  });
 
   const exceptionUntil = format(addDays(fromDate, 15), 'yyyy-MM-dd', {
-    locale: ptBR
-  })
+    locale: ptBR,
+  });
 
   const cortesia = {
     isFree: true,
@@ -50,7 +55,7 @@ const fakePersonGenerator = ({firstName, lastName, id, uuid_cliente, company}: I
     inException: false,
     exceptionUntil: null,
   };
-  
+
   const bloqueado = {
     isFree: false,
     isActive: true,
@@ -82,20 +87,23 @@ const fakePersonGenerator = ({firstName, lastName, id, uuid_cliente, company}: I
   };
 
   const randomNumber = random.number({ min: 0, max: 4 });
-  const statusOptions = [ativo,cortesia,inativo,bloqueado, excecao];
-  
-  const status = statusOptions[randomNumber]
-  
+  const statusOptions = [ativo, cortesia, inativo, bloqueado, excecao];
+
+  const status = statusOptions[randomNumber];
+
   const person = {
     id,
     uuid_cliente,
-    nome: name.findName(firstName,lastName, 0),
+    nome: name.findName(firstName, lastName, 0),
     company,
     cpf_cnpj: random.number(45645678936).toString(),
-    url: `https://mkauth.${parseString(company.toLocaleLowerCase()).replace(/\s/g, '.')}.br`,
+    url: `https://mkauth.${parseString(company.toLocaleLowerCase()).replace(
+      /\s/g,
+      '.',
+    )}.br`,
     status,
-  }
+  };
   return person;
-}
+};
 
 export default fakePersonGenerator;

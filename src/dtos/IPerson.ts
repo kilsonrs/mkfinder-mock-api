@@ -1,11 +1,11 @@
 interface IProfileStatus {
   isFree: boolean;
   isActive: boolean;
-  deactivationDate: string|null;
+  deactivationDate: string | null;
   isBlocked: boolean;
-  blockDate: string|null;
+  blockDate: string | null;
   inException: boolean;
-  exceptionUntil: string|null;
+  exceptionUntil: string | null;
 }
 
 interface IPerson {

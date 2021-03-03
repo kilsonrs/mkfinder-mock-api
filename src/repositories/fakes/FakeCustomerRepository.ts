@@ -1,9 +1,9 @@
-import { parseMac, parseString } from '../../utils/stringParser';
 import faker from 'faker';
+import { parseMac, parseString } from '../../utils/stringParser';
 
-import ICustomerDTO from "../../dtos/ICustomerDTO";
-import ICustomerRepository from "../ICustomerRepository";
-import ListCustomersDTO from "../../dtos/ListCustomersDTO";
+import ICustomerDTO from '../../dtos/ICustomerDTO';
+import ICustomerRepository from '../ICustomerRepository';
+import ListCustomersDTO from '../../dtos/ListCustomersDTO';
 import fakeInvoiceGenerator from '../helpers/fakeInvoiceGenerator';
 import fakePersonGenerator from '../helpers/fakePersonGenerator';
 import fakeConnectionGenerator from '../helpers/fakeConnectionGenerator';
@@ -14,52 +14,61 @@ import GetCustomerDTO from '../../dtos/GetCustomerDTO';
 class FakeCustomerRepository implements ICustomerRepository {
   private customers: ICustomerDTO[] = [];
 
-  async generate() {
+  async generate(): Promise<void> {
     for (let i = 0; i < 3; i++) {
-
       const company = faker.company.companyName(0);
 
-        for (let i = 0; i < 4; i++) {
-      
-          const id = faker.random.uuid();
-          const uuid_cliente = faker.random.uuid();
+      for (let j = 0; j < 4; j++) {
+        const id = faker.random.uuid();
+        const uuid_cliente = faker.random.uuid();
 
-          const firstName = faker.name.firstName(0);
-          const lastName = faker.name.lastName(0);
+        const firstName = faker.name.firstName(0);
+        const lastName = faker.name.lastName(0);
 
-          const plano = `Plano Residencial - ${faker.random.number(10)}`;
-          
-          const person = fakePersonGenerator({firstName, lastName, id, uuid_cliente, company});
-          const { nome, cpf_cnpj} = person;
+        const plano = `Plano Residencial - ${faker.random.number(10)}`;
 
-          const invoices = fakeInvoiceGenerator({ nome, plano, cpf_cnpj });
-          const contact = fakeContactGenerator({ id, firstName, lastName, uuid_cliente });
-          
-          const connection = fakeConnectionGenerator({ firstName, lastName });
-          const address = fakeAddressGenerator({ id, uuid_cliente });
-          
-          const { login, mac } = connection;
-          const { endereco } = address;
+        const person = fakePersonGenerator({
+          firstName,
+          lastName,
+          id,
+          uuid_cliente,
+          company,
+        });
+        const { nome, cpf_cnpj } = person;
 
-          const customer:ICustomerDTO = {
-            id,
-            uuid_cliente,
-            nome,
-            login,
-            company,
-            mac,
-            endereco,
-            details: {
-              person,
-              contact,
-              connection,
-              address,
-              invoices,
-            }
-          }
-          
-          this.customers.push(customer)
-        }
+        const invoices = fakeInvoiceGenerator({ nome, plano, cpf_cnpj });
+        const contact = fakeContactGenerator({
+          id,
+          firstName,
+          lastName,
+          uuid_cliente,
+        });
+
+        const connection = fakeConnectionGenerator({ firstName, lastName });
+        const address = fakeAddressGenerator({ id, uuid_cliente });
+
+        const { login, mac } = connection;
+        const { endereco } = address;
+
+        const customer: ICustomerDTO = {
+          id,
+          uuid_cliente,
+          nome,
+          login,
+          company,
+          mac,
+          endereco,
+          details: {
+            person,
+            contact,
+            connection,
+            address,
+            invoices,
+          },
+        };
+
+        this.customers.push(customer);
+      }
     }
   }
 
@@ -92,10 +101,9 @@ class FakeCustomerRepository implements ICustomerRepository {
 
   async getCustomerDetails(data: ListCustomersDTO): Promise<GetCustomerDTO> {
     const { login } = data;
-    
-    const customer = this.customers
-    .filter(client => client.login === login)
-    
+
+    const customer = this.customers.filter(client => client.login === login);
+
     return customer[0].details;
   }
 }

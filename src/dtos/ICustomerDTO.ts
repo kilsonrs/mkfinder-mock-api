@@ -1,4 +1,4 @@
-import GetCustomerDTO from "./GetCustomerDTO";
+import GetCustomerDTO from './GetCustomerDTO';
 
 export default interface ICustomerDTO {
   id: string;
@@ -9,4 +9,4 @@ export default interface ICustomerDTO {
   mac: string;
   endereco: string;
   details: GetCustomerDTO;
- }
+}
