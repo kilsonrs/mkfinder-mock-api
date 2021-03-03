@@ -12,7 +12,13 @@ interface FakerInvoiceDTO {
 
 const fakeInvoiceGenerator = ({ nome , plano, cpf_cnpj }: FakerInvoiceDTO): IInvoice[] => {
   const invoices = [];
-  const expirationDay = 10;
+  const expirationDayOptions = [5, 10, 15, 20, 25];
+  const invoiceValueOptions = [80, 90, 100, 120, 150];
+
+  const randomNumber = faker.random.number({min: 0, max: 4})
+
+  const expirationDay = expirationDayOptions[randomNumber];
+  const invoiceValue = invoiceValueOptions[randomNumber];
   
   const year = new Date().getFullYear()
   const month = new Date().getMonth()
@@ -36,10 +42,10 @@ const fakeInvoiceGenerator = ({ nome , plano, cpf_cnpj }: FakerInvoiceDTO): IInv
         uuid_lanc: faker.random.uuid(),
         nome,
         datavenc: dueDate,
-        valor: 100,
+        valor: invoiceValue,
         cpf_cnpj,
         nossonum: 12345,
-        linhadig: `123456.78901 23456.78901${i} 23456.7${i}890${i} ${i} 12300000010000`,
+        linhadig: `123456.78901 23456.78901${i} 23456.7${i}890${i} ${i} 12300000010${invoiceValue}`,
         titulo: `12345${i}`,
         referencia: processingDate,
         processamento: processingDate,
@@ -47,7 +53,7 @@ const fakeInvoiceGenerator = ({ nome , plano, cpf_cnpj }: FakerInvoiceDTO): IInv
         plano,
         status: invoiceStatus,
         datapag: i < 4 ? dueDate : null,
-        valorpag: i < 4 ? 100 : null,
+        valorpag: i < 4 ? invoiceValue : null,
         recibo: null,
         deltitulo: '0',
       }
