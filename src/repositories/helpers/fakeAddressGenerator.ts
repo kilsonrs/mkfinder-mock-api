@@ -20,14 +20,13 @@ const fakeAddressGenerator = ({id, uuid_cliente}: FakePersonGeneratorDTO): IAddr
     id,
     uuid_cliente,
     endereco: `${prefix} ${streetName}`,
-    numero: faker.random.number(600),
+    numero: faker.random.number({ min: 100, max: 600 }),
     bairro: `${bairroPrefix} ${faker.name.firstName()} ${faker.name.lastName()}`,
-    cidade: faker.address.country(),
-    estado:  faker.address.stateAbbr(),
-    cep: faker.address.zipCode(),
+    cidade: 'São Paulo',
+    estado:  'SP',
+    cep: faker.address.zipCode('11###-###'),
     complemento: faker.address.secondaryAddress(),
   }
-  
   return address;
 }
 
