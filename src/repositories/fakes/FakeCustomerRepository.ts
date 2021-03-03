@@ -15,44 +15,51 @@ class FakeCustomerRepository implements ICustomerRepository {
   private customers: ICustomerDTO[] = [];
 
   async generate() {
-    for (let i = 0; i < 30; i++) {
-  
-    const firstName = faker.name.firstName(0);
-    const lastName = faker.name.lastName(0);
-    const plano = `Plano Residencial - ${faker.random.number(10)}`;
-    const id = faker.random.uuid();
-    const uuid_cliente = faker.random.uuid();
-    
-      const person = fakePersonGenerator({firstName, lastName, id, uuid_cliente});
-      const { nome, cpf_cnpj, company } = person;
+    for (let i = 0; i < 3; i++) {
 
-      const invoices = fakeInvoiceGenerator({ nome, plano, cpf_cnpj });
-      const contact = fakeContactGenerator({ id, firstName, lastName, uuid_cliente });
-      
-      const connection = fakeConnectionGenerator({ firstName, lastName });
-      const address = fakeAddressGenerator({ id, uuid_cliente });
-      
-      const { login, mac } = connection;
-      const { endereco } = address;
+      const company = faker.company.companyName(0);
 
-      const customer:ICustomerDTO = {
-        id,
-        uuid_cliente,
-        nome,
-        login,
-        company,
-        mac,
-        endereco,
-        details: {
-          person,
-          contact,
-          connection,
-          address,
-          invoices,
+        for (let i = 0; i < 4; i++) {
+      
+          const id = faker.random.uuid();
+          const uuid_cliente = faker.random.uuid();
+
+          const firstName = faker.name.firstName(0);
+          const lastName = faker.name.lastName(0);
+
+          const plano = `Plano Residencial - ${faker.random.number(10)}`;
+          
+          const person = fakePersonGenerator({firstName, lastName, id, uuid_cliente, company});
+          const { nome, cpf_cnpj} = person;
+
+          const invoices = fakeInvoiceGenerator({ nome, plano, cpf_cnpj });
+          const contact = fakeContactGenerator({ id, firstName, lastName, uuid_cliente });
+          
+          const connection = fakeConnectionGenerator({ firstName, lastName });
+          const address = fakeAddressGenerator({ id, uuid_cliente });
+          
+          const { login, mac } = connection;
+          const { endereco } = address;
+
+          const customer:ICustomerDTO = {
+            id,
+            uuid_cliente,
+            nome,
+            login,
+            company,
+            mac,
+            endereco,
+            details: {
+              person,
+              contact,
+              connection,
+              address,
+              invoices,
+            }
+          }
+          
+          this.customers.push(customer)
         }
-      }
-      
-      this.customers.push(customer)
     }
   }
 

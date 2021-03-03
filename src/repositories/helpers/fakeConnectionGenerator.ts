@@ -1,4 +1,4 @@
-import {name, random, address, internet, company} from 'faker';
+import {internet} from 'faker';
 import IConnection from "../../dtos/IConnection";
 
 interface IFakeConnection {
